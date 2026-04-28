@@ -4,7 +4,8 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // Base path del repositorio en GitHub Pages.
-  // Debe coincidir con el nombre exacto del repositorio.
   base: '/frontend-project-poli/',
+  build: {
+    outDir: 'docs',
+  },
 })
