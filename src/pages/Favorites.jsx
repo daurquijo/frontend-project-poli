@@ -1,11 +1,20 @@
+/**
+ * Favorites — Lista de servicios guardados como favoritos por el usuario.
+ *
+ * Obtiene los IDs favoritos desde el contexto global y los cruza con el
+ * catálogo de servicios para renderizar las tarjetas. Permite quitar un
+ * favorito directamente desde esta vista.
+ * Ruta: /favoritos
+ */
+
 import { Link } from 'react-router-dom'
-import { useServices } from '../hooks/useServices'
-import { useFavorites } from '../hooks/useFavorites'
+import { useServicesContext } from '../context/ServicesContext'
+import { useFavoritesContext } from '../context/FavoritesContext'
 import ServiceCard from '../components/ServiceCard'
 
 export default function Favorites() {
-  const { services } = useServices()
-  const { favoriteIds, removeFavorite } = useFavorites()
+  const { services } = useServicesContext()
+  const { favoriteIds, removeFavorite } = useFavoritesContext()
 
   const favorites = services.filter(s => favoriteIds.includes(s.id))
 
@@ -17,12 +26,12 @@ export default function Favorites() {
 
       {favorites.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 gap-6 text-gray-400">
-          <p className="text-lg">Aun no Tienes ningun favorito</p>
+          <p className="text-lg">Aún no tienes ningún favorito</p>
           <Link
             to="/servicios"
             className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-colors"
           >
-            selecciona uno ↗
+            Selecciona uno ↗
           </Link>
         </div>
       ) : (

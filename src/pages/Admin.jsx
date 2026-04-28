@@ -1,10 +1,19 @@
+/**
+ * Admin — Panel de administración del catálogo de servicios.
+ *
+ * Permite crear nuevos servicios (formulario con validaciones) y eliminar
+ * servicios existentes (con confirmación previa). Los cambios se reflejan
+ * en tiempo real en todas las páginas gracias al contexto compartido.
+ * Ruta: /admin
+ */
+
 import { useState } from 'react'
-import { useServices } from '../hooks/useServices'
+import { useServicesContext } from '../context/ServicesContext'
 
 const CATEGORIES = ['Tecnología', 'Datos', 'Consultoría', 'Educación', 'Seguridad', 'Diseño', 'Infraestructura', 'Marketing', 'Soporte']
 
 export default function Admin() {
-  const { services, addService, deleteService } = useServices()
+  const { services, addService, deleteService } = useServicesContext()
   const [activeSection, setActiveSection] = useState('Servicios')
   const [form, setForm] = useState({ name: '', shortDescription: '', description: '', image: '', category: 'Tecnología' })
   const [formError, setFormError] = useState('')
@@ -39,12 +48,18 @@ export default function Admin() {
     setTimeout(() => setSuccessMsg(''), 3000)
   }
 
+  function handleDelete(id, name) {
+    if (window.confirm(`¿Eliminar el servicio "${name}"? Esta acción no se puede deshacer.`)) {
+      deleteService(id)
+    }
+  }
+
   return (
     <div className="flex min-h-[calc(100vh-120px)]">
       {/* Sidebar */}
       <aside className="w-48 border-r border-gray-200 bg-gray-50 flex-shrink-0">
         <div className="p-4">
-          <p className="text-xs text-gray-400 uppercase tracking-wider mb-4">Que quieres hacer</p>
+          <p className="text-xs text-gray-400 uppercase tracking-wider mb-4">Qué quieres hacer</p>
           <nav className="flex flex-col gap-1">
             {sidebarItems.map(item => (
               <button
@@ -175,7 +190,7 @@ export default function Admin() {
                     </div>
                   </div>
                   <button
-                    onClick={() => deleteService(service.id)}
+                    onClick={() => handleDelete(service.id, service.name)}
                     className="text-xs text-red-500 hover:text-red-700 border border-red-200 hover:border-red-400 px-3 py-1.5 rounded-lg transition-colors"
                   >
                     Eliminar

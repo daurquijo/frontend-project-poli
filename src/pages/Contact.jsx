@@ -1,3 +1,12 @@
+/**
+ * Contact — Página de contacto con formulario validado.
+ *
+ * Valida nombre (mín. 2 caracteres), correo electrónico (regex), asunto
+ * y mensaje (mín. 10 caracteres). Muestra errores por campo y un banner
+ * de confirmación al enviar. No requiere backend — solo UI.
+ * Ruta: /contactanos
+ */
+
 import { useState } from 'react'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/

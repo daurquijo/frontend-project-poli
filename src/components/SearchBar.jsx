@@ -1,3 +1,8 @@
+/**
+ * SearchBar — Campo de búsqueda controlado reutilizable.
+ *
+ * @param {{ value: string, onChange: (val: string) => void, placeholder?: string }} props
+ */
 export default function SearchBar({ value, onChange, placeholder = 'Buscar servicios...' }) {
   return (
     <div className="relative w-full max-w-md mx-auto">

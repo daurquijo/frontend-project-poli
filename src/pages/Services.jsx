@@ -1,15 +1,30 @@
+/**
+ * Services — Catálogo completo de servicios disponibles.
+ *
+ * Permite al usuario filtrar servicios por nombre (SearchBar) y por categoría
+ * (selector dinámico generado desde las categorías existentes en el catálogo).
+ * Los filtros se combinan con AND.
+ * Ruta: /servicios
+ */
+
 import { useState } from 'react'
-import { useServices } from '../hooks/useServices'
+import { useServicesContext } from '../context/ServicesContext'
 import ServiceCard from '../components/ServiceCard'
 import SearchBar from '../components/SearchBar'
 
 export default function Services() {
-  const { services } = useServices()
+  const { services } = useServicesContext()
   const [query, setQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('Todas')
 
-  const filtered = services.filter(s =>
-    s.name.toLowerCase().includes(query.toLowerCase())
-  )
+  // Categorías únicas derivadas del catálogo actual
+  const categories = ['Todas', ...new Set(services.map(s => s.category))]
+
+  const filtered = services.filter(s => {
+    const matchesQuery = s.name.toLowerCase().includes(query.toLowerCase())
+    const matchesCategory = selectedCategory === 'Todas' || s.category === selectedCategory
+    return matchesQuery && matchesCategory
+  })
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
@@ -21,13 +36,27 @@ export default function Services() {
         </button>
       </div>
 
-      <div className="mb-8">
+      {/* Filtros: búsqueda + categoría */}
+      <div className="mb-8 flex flex-col sm:flex-row gap-3 items-center justify-center">
         <SearchBar value={query} onChange={setQuery} />
+        <select
+          value={selectedCategory}
+          onChange={e => setSelectedCategory(e.target.value)}
+          className="border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 bg-white"
+        >
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
       </div>
 
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-gray-400">
-          <p className="text-lg">No se encontraron servicios para "{query}"</p>
+          <p className="text-lg">
+            No se encontraron servicios
+            {query && ` para "${query}"`}
+            {selectedCategory !== 'Todas' && ` en la categoría "${selectedCategory}"`}
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

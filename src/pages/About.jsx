@@ -1,3 +1,11 @@
+/**
+ * About — Página informativa sobre el proyecto y el equipo.
+ *
+ * Muestra la descripción del proyecto académico, los integrantes del equipo
+ * y las tecnologías utilizadas en el desarrollo de ServyTech.
+ * Ruta: /acerca-de
+ */
+
 const team = [
   { name: 'Juan Alonso Torres', role: 'Desarrollador Frontend' },
   { name: 'Santiago Aranda Hurtado', role: 'Diseñador UX/UI' },

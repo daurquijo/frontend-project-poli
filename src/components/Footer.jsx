@@ -1,3 +1,7 @@
+/**
+ * Footer — Pie de página con enlaces y créditos.
+ * Aparece en todas las páginas a través del Layout en App.jsx.
+ */
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 mt-auto">

@@ -1,3 +1,11 @@
+/**
+ * Header — Barra de navegación principal de ServyTech.
+ *
+ * Sticky en la parte superior. Incluye el logo, navegación de escritorio con
+ * resaltado de ruta activa (NavLink) y menú hamburguesa para móvil.
+ * Las 5 rutas del menú son: Principal, Servicios, Contáctanos, Favoritos, Acerca de.
+ */
+
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 

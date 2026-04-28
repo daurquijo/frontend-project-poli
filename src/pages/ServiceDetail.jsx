@@ -1,12 +1,21 @@
+/**
+ * ServiceDetail — Vista detallada de un servicio.
+ *
+ * Muestra información completa del servicio seleccionado: imagen, nombre, categoría,
+ * descripción, precio, duración y público objetivo. Permite al usuario agregar o
+ * quitar el servicio de sus favoritos y navegar a la página de contacto.
+ * Ruta: /servicios/:id
+ */
+
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { useServices } from '../hooks/useServices'
-import { useFavorites } from '../hooks/useFavorites'
+import { useServicesContext } from '../context/ServicesContext'
+import { useFavoritesContext } from '../context/FavoritesContext'
 
 export default function ServiceDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { services } = useServices()
-  const { addFavorite, removeFavorite, isFavorite } = useFavorites()
+  const { services } = useServicesContext()
+  const { addFavorite, removeFavorite, isFavorite } = useFavoritesContext()
 
   const service = services.find(s => s.id === id)
 

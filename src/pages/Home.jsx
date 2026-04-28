@@ -1,22 +1,13 @@
-import { Link } from 'react-router-dom'
+/**
+ * Home — Página de inicio de ServyTech.
+ *
+ * Muestra la sección hero, los servicios destacados (pulled desde el catálogo real
+ * filtrando featured === true) y testimonios de clientes.
+ * Ruta: /
+ */
 
-const featuredServices = [
-  {
-    icon: '🌐',
-    name: 'Desarrollo Web',
-    description: 'Diseñamos y desarrollamos páginas web modernas, rápidas y seguras, adaptadas a cualquier tipo de negocio o proyecto personal.',
-  },
-  {
-    icon: '⚙️',
-    name: 'Automatización y Sistemas',
-    description: 'Optimizamos tus procesos mediante herramientas tecnológicas que reducen el trabajo manual y aumentan la eficiencia.',
-  },
-  {
-    icon: '📊',
-    name: 'Análisis y Soluciones Tecnológicas',
-    description: 'Implementamos soluciones inteligentes que te ayudan a tomar mejores decisiones basadas en datos.',
-  },
-]
+import { Link } from 'react-router-dom'
+import { useServicesContext } from '../context/ServicesContext'
 
 const testimonials = [
   {
@@ -37,6 +28,9 @@ const testimonials = [
 ]
 
 export default function Home() {
+  const { services } = useServicesContext()
+  const featured = services.filter(s => s.featured).slice(0, 3)
+
   return (
     <div>
       {/* Hero Section */}
@@ -66,16 +60,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Services */}
+      {/* Featured Services — datos reales del catálogo */}
       <section className="max-w-6xl mx-auto px-4 py-16">
         <p className="text-xs text-gray-400 uppercase tracking-widest mb-2">Nuestros</p>
         <h2 className="text-3xl font-bold text-gray-900 mb-10">Servicios destacados</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {featuredServices.map(service => (
-            <div key={service.name} className="flex flex-col gap-3">
+          {featured.map(service => (
+            <div key={service.id} className="flex flex-col gap-3">
               <span className="text-3xl">{service.icon}</span>
               <h3 className="font-semibold text-gray-900">{service.name}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{service.description}</p>
+              <p className="text-sm text-gray-500 leading-relaxed">{service.shortDescription}</p>
+              <Link
+                to={`/servicios/${service.id}`}
+                className="text-sm text-green-600 hover:underline font-medium w-fit"
+              >
+                Ver detalle →
+              </Link>
             </div>
           ))}
         </div>
